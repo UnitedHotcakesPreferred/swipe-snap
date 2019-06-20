@@ -6,4 +6,4 @@ This solution is publicly available to establish a swipe display for screen, tab
 	2. display managed & configured by HTML classes,
 	3. compliant to HTML4 & 5 browser standards.
 
-The display is based on the presentation of the <a href="http://thrillbent.com">Thrillbent online comics</a> for which Mark Waid &amp; his team of creators credit <a href="http://www.deviantart.com/balak01/art/about-DIGITAL-COMICS-111966969">Yves Bigerel's digital comics challenge</a> as inspiration. Solution uses jQuery.
+The display is based on the presentation of the [Thrillbent online comics](http://thrillbent.com) for which Mark Waid &amp; his team of creators credit [Yves Bigerel's digital comics challenge](http://www.deviantart.com/balak01/art/about-DIGITAL-COMICS-111966969) as inspiration. Solution uses jQuery.

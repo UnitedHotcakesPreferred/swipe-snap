@@ -1,8 +1,8 @@
-# Standards-Compliant, HTML-Class Managed Swipe Display
+# Standards-Compliant Swipe Display Managed by HTML Classes
 
-This solution is publicly available to establish a swipe display for screen, tablet &amp; mobile. Just:
+This solution allows the public to establish a swipe display for screen, tablet &amp; mobile. Just:
 
-	1. address a list of HTML links to your image files, in a
+	1. populate a list of HTML links to your image files, in a
 	2. display managed & configured by HTML classes,
 	3. compliant to HTML4 & 5 browser standards.
 

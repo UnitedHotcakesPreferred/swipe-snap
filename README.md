@@ -1,1 +1,1 @@
-# swipe-snap
+# Standards-Compliant, HTML-Class Managed Swipe Display

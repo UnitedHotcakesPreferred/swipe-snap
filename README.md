@@ -3,7 +3,7 @@
 If you can:
 
 	1. address a list of HTML links to your image files,
-	2. edit HTML classes to managed & configured the display, and
+	2. edit HTML classes to manage & configure the display, and
 	3. post art & pages to the web,
 
 you can establish a swipe display compliant to HTML4 & 5 browser standards for screen, tablet &amp; mobile.

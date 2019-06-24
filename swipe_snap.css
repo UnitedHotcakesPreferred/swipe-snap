@@ -1,0 +1,199 @@
+/* TOC */
+
+ul.toc {
+	margin-right: auto;
+	margin-left: auto;
+	padding: 0;
+	overflow: hidden;
+	list-style-type: none;
+}
+ul.toc a {
+	padding: 7px 0;
+	display: block;
+	text-decoration: none;
+	outline: 0 none;
+}
+ul.toc a:hover {
+	text-decoration: underline;
+}
+ul.toc li.hilite a {
+	color: #c00;
+}
+
+/* swipe & snap defaults */
+
+div.swipe_snap > div {
+	margin: auto;
+	overflow: hidden;
+}
+div.swipe_snap a {
+	color: inherit;
+}
+div.swipe_snap ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+div.swipe_snap li a {
+	outline: 0 none;
+	position: relative;
+	float: left;
+}
+div.swipe_snap li img {
+	border-width: 0;
+	position: absolute;
+	opacity: 0;
+}
+div.swipe_snap li a:last-child {
+	z-index: 9;
+}
+div.swipe_snap li > a:last-child {
+	float: none;
+}
+div.swipe_snap li a:last-child img {
+	position: relative;
+}
+div.swipe_snap li > strong {
+	display: block;
+	position: absolute;
+	color: #c00;
+	font-family: Verdana, sans-serif;
+	text-align: center;
+}
+div.swipe_snap li span a {
+	font-size: xx-large;
+	text-align: center;
+	text-decoration: none;
+	background: #f3f3f3;
+	opacity: 0;
+}
+div.swipe_snap li.focus a:first-child,
+div.swipe_snap li.focus a:first-child img,
+div.swipe_snap li.select span a,
+div.swipe_snap li.select img {
+	opacity: 1;
+}
+div.swipe_snap + p.page_number {
+	text-align: center;
+}
+div.swipe_snap li:first-child > strong + span,
+div.swipe_snap li:last-child > strong + span {
+	opacity: 0.7;
+	background: #fff;
+}
+
+/* horizontal swipe */
+
+div.horizontal ul {
+	white-space: nowrap;
+}
+div.horizontal li:first-child > strong {
+	right: 50%;
+}
+div.horizontal li:last-child > strong {
+	left: 50%;
+}
+div.horizontal li,
+div.horizontal li a,
+div.horizontal li img,
+div.horizontal li span {
+	display: inline-block;
+	vertical-align: top;
+}
+
+/* allow scrollbar */
+
+div.isMouse > div {
+	border: 3px solid #f6f6f6;
+}
+div.isMouse.swipe_snap.horizontal > div {
+	overflow-x: auto;
+}
+div.isMouse.swipe_snap.vertical > div {
+	overflow-y: scroll;
+}
+
+/* vertical swipe */
+
+div.vertical {
+	position: relative;
+}
+div.vertical li a,
+div.vertical li span {
+	display: block;
+}
+div.vertical li a img {
+	display: block;
+	float: left;
+}
+div.vertical li:first-child {
+	line-height: 0;
+}
+div.vertical li:first-child > strong {
+	top: 0;
+}
+div.vertical li:last-child > strong {
+	bottom: 0;
+}
+div.vertical li > strong sub {
+	font-size: 1em;
+}
+
+/* prefixed css3 */
+
+div.vertical li:last-child > strong {
+	-o-transform:		rotate(180deg);	-ms-transform:	rotate(180deg);	-moz-transform:	rotate(180deg);
+	-webkit-transform:	rotate(180deg);	transform:	rotate(180deg);
+}
+@media screen {
+	div.enable li.swipe_out a:last-child img,
+	div.enable li.swipe_out + li.select a:first-child + a img {
+		-moz-transition:	opacity 0.5s 0.6s;	-o-transition:	opacity 0.5s 0.6s;
+		-webkit-transition:	opacity 0.5s 0.6s;	transition:	opacity 0.5s 0.6s;
+	}
+	div.enable li.swipe_out span a,
+	div.enable li.select a + a + a:last-child img,
+	div.enable li.select.swipe_out a + a + a:last-child img {
+		-moz-transition:	opacity 0.5s 0.67s;	-o-transition:	opacity 0.5s 0.67s;
+		-webkit-transition:	opacity 0.5s 0.67s;	transition:	opacity 0.5s 0.67s;
+	}
+	li.select.fade span a,
+	li.select.fade a:first-child + a img,
+	li.select.swipe_out.fade a:first-child + a img {
+		-moz-transition:	opacity 0.5s;		-o-transition:	opacity 0.5s;
+		-webkit-transition:	opacity 0.5s;		transition:	opacity 0.5s;
+	}
+	li.swipe_out a:last-child img,
+	li.swipe_out + li.select a:first-child + a img {
+		-moz-transition:	opacity 0s 0.6s;	-o-transition:	opacity 0s 0.6s;
+		-webkit-transition:	opacity 0s 0.6s;	transition:	opacity 0s 0.6s;
+	}
+	li.swipe_out span a,
+	li.select a + a + a:last-child img,
+	li.select.swipe_out a + a + a:last-child img {
+		-moz-transition:	opacity 0s 0.67s;	-o-transition:	opacity 0s 0.67s;
+		-webkit-transition:	opacity 0s 0.67s;	transition:	opacity 0s 0.67s;
+	}
+	li.select + li.swipe_out a:last-child img,
+	li.swipe_out.select a:first-child + a img,
+	li.swipe_out.select a:last-child img,
+	li.swipe_out + li.select span a,
+	li.swipe_out + li.focus span a,
+
+/* reverse-flow cleanup */
+
+	li.focus a:last-child img,
+	li.swipe_out.select + li.focus span a,
+	div.enable li.swipe_out.focus a:first-child img,
+	div.enable li.swipe_out.focus span a:first-child,
+	div.enable li.swipe_out.select a:first-child img,
+	div.enable li.swipe_out.select span a:first-child {
+		-moz-transition:	opacity 0s;		-o-transition:	opacity 0s;
+		-webkit-transition:	opacity 0s;		transition:	opacity 0s;
+	}
+	li.swipe_out.select + li span a,
+	li.swipe_out + li.select + li a + a:last-child img {
+		-moz-transition:	opacity 0s 0.67s;	-o-transition:	opacity 0s 0.67s;
+		-webkit-transition:	opacity 0s 0.67s;	transition:	opacity 0s 0.67s;
+	}
+}

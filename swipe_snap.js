@@ -9,7 +9,7 @@ var	portAxis = jQuery('div.swipe_snap');
 		portAxis.find('li:first-child + li').addClass('select');
 		portAxis.find('li > a')[0].className = 'asdf';
 		portAxis.find('a.asdf').append(document.createElement('img'));
-		portAxis.find('a.asdf').children('img').attr({alt: '', src: portAxis.find('a.asdf').attr('href')});
+		portAxis.find('a.asdf img').attr({alt: '', src: portAxis.find('a.asdf').attr('href')});
 	}
 	if ('ontouchstart' in self) portAxis.addClass('isTouch');
 	else {
@@ -19,10 +19,9 @@ var	portAxis = jQuery('div.swipe_snap');
 	jQuery('.asdf').removeClass('asdf');
 });
 jQuery(self).on('load', function() {
-var	timeoutID,
+var	timeoutID, snapLength,
 	portAxis = jQuery('div.swipe_snap'),
 	portArea = portAxis.children('div'),
-	port = portArea[0],
 	isVert = portAxis.hasClass('vertical'),
 	isMouse = portAxis.hasClass('isMouse'),
 
@@ -50,7 +49,7 @@ var	timeoutID,
 	jump = function() {		// scroll where
 	var	count = arguments[0],
 		ixJump = (arguments[1] && portArea.find(jPlate(count)).hasClass('select') ? 1 : 0) + count - 1,
-		newSnap = ixJump * port.snapLength;
+		newSnap = ixJump * snapLength;
 
 		if (newSnap != (jQuery('div.swipe_snap').hasClass('vertical') ? portArea.scrollTop() : portArea.scrollLeft())) {
 			scrollPull(ixJump+1, newSnap, (portArea.find(jPlate(ixJump)).hasClass('swipe_out') ? 750 : 0));
@@ -65,9 +64,9 @@ var	timeoutID,
 		startEvent = (isTouch) ? 'touchstart' : 'mousedown',
 		pageTotal = portArea.find('li a:first-child').length,
 		scrollFrom = (isVert) ? portArea.scrollTop() : portArea.scrollLeft(),
-		count = (isNaN(arguments[0])) ? Math.floor(scrollFrom/port.snapLength) : arguments[0]-1,	// crawl or jump
+		count = (isNaN(arguments[0])) ? Math.floor(scrollFrom/snapLength) : arguments[0]-1,	// crawl or jump
 
-		newSnap = port.snapLength * count++,
+		newSnap = snapLength * count++,
 		isSelect = portArea.find('li.select'),
 		getTouch = function(event) {
 		var	eTouch = (event.originalEvent.touches) ? event.originalEvent.touches[0] : event;
@@ -109,11 +108,11 @@ var	timeoutID,
 				event.preventDefault();
 			}).on(moveEvent, function(event) {
 			var	endDrag = getTouch(event);
-				event.preventDefault();
 				if (startDrag && startDrag != endDrag) {
 					jump(startDrag < endDrag ? count - 1 : count + 1);
 					startDrag = 0;
 				}
+				event.preventDefault();
 			});
 		}
 	},
@@ -151,6 +150,7 @@ var	timeoutID,
 				objHref.children('img').attr({alt: '', src: objHref.attr('href')});
 			}
 		};
+		portArea.off();
 		toc.html('');
 		for (var ix=1;ix<=pageTotal;ix++) {
 			if (listLI[ix].getElementsByTagName('a').length) {
@@ -194,6 +194,7 @@ var	timeoutID,
 			imgHeight = imgArea.height();
 		}
 		displayHeight = px(imgHeight + 2 * navHeight);
+		snapLength = (isVert) ? imgHeight : imgWidth;
 		if (fitWidth || fitHeight) listLI.find('img').attr('style', (isVert ? 'height: ' + px(imgHeight) : 'width: ' + px(imgWidth)));
 		if (isVert) {
 			listLI.find('a:last-child, span:first-child').css({'width': px(imgWidth), 'height': px(imgHeight)});
@@ -201,7 +202,7 @@ var	timeoutID,
 			listLI.find('strong sub').append('&circ;');
 			portArea.css('max-height', displayHeight);
 		} else {
-			listLI.find('span').children('a').css({'width': px(imgWidth), 'height': px(imgHeight)});
+			listLI.find('span a').css({'width': px(imgWidth), 'height': px(imgHeight)});
 			listLI.children('strong + span').css('min-width', px(navSize));
 			portArea.find('li:first-child > strong').css('margin-right', px(imgWidth/2));
 			portArea.find('li:last-child > strong').css('margin-left', px(imgWidth/2));
@@ -211,20 +212,20 @@ var	timeoutID,
 		listLI.find('a').on('focus', function() { this.blur(); });
 		portArea.find('li:first-child, li:last-child').css('line-height', (navHeight ? px(navHeight) : displayHeight));
 		portArea.css('max-width', px(imgWidth + barWidth + 2 * navWidth));
-		port.snapLength = (isVert) ? imgArea.height() : imgArea.width();
-		port.onscroll = updateDisplay;
-		if (barWidth) jQuery('.page_number').css('margin-right', px(barWidth));
 		if (isMouse) portArea.css('padding', px(navWidth) + ' ' + px(navHeight));
+		if (barWidth) jQuery('.page_number').css('margin-right', px(barWidth));
+		portArea.on('scroll', updateDisplay);
 		updateDisplay(isNaN(arguments[0]) ? 1 : arguments[0]);
 	};
 	if (isMouse) jQuery(document).on('keydown', function (event) {
 
 	//	go right/left keys
 
-	var	getKey = (event.key == 'ArrowLeft') ? -1 : (event.key == 'ArrowRight') ? 1 : false;
-		if (getKey && !isVert) {
+	var	getKey = (event.key.indexOf('Left') > -1) ? -1 : (event.key.indexOf('Right') > -1) ? 1 : false;
+		if (getKey) {
 			jump(portArea.find('li.select')[0].count + getKey);
-			return false;
+			if (event.key.indexOf('Arrow') > -1) portArea.find('li.focus a:last-child').focus();
+			event.preventDefault();
 		}
 	});
 	jQuery(self).on('resize', function() {

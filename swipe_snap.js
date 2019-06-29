@@ -1,5 +1,5 @@
 //	Swipe & Snap
-//	Copyright 2019, MIT License
+//	Copyright 2019 MIT License
 //	http://github.com/UnitedHotcakesPreferred/swipe-snap
 
 jQuery(document).ready(function() {	// set display landmarks
@@ -19,17 +19,18 @@ var	portAxis = jQuery('div.swipe_snap');
 	jQuery('.asdf').removeClass('asdf');
 });
 jQuery(self).on('load', function() {
-var	portAxis = jQuery('div.swipe_snap'),
+var	timeoutID,
+	portAxis = jQuery('div.swipe_snap'),
 	portArea = portAxis.children('div'),
 	port = portArea[0],
 	isVert = portAxis.hasClass('vertical'),
 	isMouse = portAxis.hasClass('isMouse'),
 
-	plateID = function() {		// return ID attribute name
+	plateID = function() {		// return ID name
 
 		return ('plate' + percentxt(arguments[0]));
 	},
-	jPlate = function() {		// return selector
+	jPlate = function() {		// return css selector
 
 		return ((arguments.length > 1 ? 'li.' : 'li#') + plateID(arguments[0]));
 	},
@@ -37,7 +38,7 @@ var	portAxis = jQuery('div.swipe_snap'),
 	var	count = arguments[0];
 		return ((count > 9 ? '' : '0') + count.toString());
 	},
-	scrollPull = function() {	// scroll horizontal or vertical
+	scrollPull = function() {	// scroll how
 	var	speed = arguments[2],
 		newSnap = arguments[1];
 		portArea.find(jPlate(arguments[0])).addClass('focus');
@@ -46,7 +47,7 @@ var	portAxis = jQuery('div.swipe_snap'),
 		else if (speed) portArea.animate({scrollLeft: newSnap}, speed);
 			else portArea.scrollLeft(newSnap);
 	},
-	jump = function() {		// advance scroll
+	jump = function() {		// scroll where
 	var	count = arguments[0],
 		ixJump = (arguments[1] && portArea.find(jPlate(count)).hasClass('select') ? 1 : 0) + count - 1,
 		newSnap = ixJump * port.snapLength;
@@ -55,7 +56,7 @@ var	portAxis = jQuery('div.swipe_snap'),
 			scrollPull(ixJump+1, newSnap, (portArea.find(jPlate(ixJump)).hasClass('swipe_out') ? 750 : 0));
 		}
 	},
-	updateDisplay = function() {	// scroll on drag, snap or select
+	updateDisplay = function() {	// scroll effects
 
 	var	startDrag, pageFrac, toSelect,
 		isTouch = portAxis.hasClass('isTouch'),
@@ -64,7 +65,7 @@ var	portAxis = jQuery('div.swipe_snap'),
 		startEvent = (isTouch) ? 'touchstart' : 'mousedown',
 		pageTotal = portArea.find('li a:first-child').length,
 		scrollFrom = (isVert) ? portArea.scrollTop() : portArea.scrollLeft(),
-		count = (isNaN(arguments[0])) ? Math.floor(scrollFrom/port.snapLength) : arguments[0]-1,	// crawl or set advance
+		count = (isNaN(arguments[0])) ? Math.floor(scrollFrom/port.snapLength) : arguments[0]-1,	// crawl or jump
 
 		newSnap = port.snapLength * count++,
 		isSelect = portArea.find('li.select'),
@@ -82,10 +83,10 @@ var	portAxis = jQuery('div.swipe_snap'),
 			toSelect.addClass('select');
 			portArea.find('li.focus').removeClass('focus');
 		}
-		if (port.timeoutID) self.clearTimeout(port.timeoutID);
-		if (newSnap != scrollFrom) port.timeoutID = self.setTimeout(function() { scrollPull(count, newSnap, 99); }, 300);
+		if (timeoutID) self.clearTimeout(timeoutID);
+		if (newSnap != scrollFrom) timeoutID = self.setTimeout(function() { scrollPull(count, newSnap, 99); }, 300);
 
-	//	update display
+	//	progress display
 
 		pageFrac = 'Page ' + count.toString() + ' of ' + pageTotal.toString();
 		jQuery('.page_number').text(pageFrac);
@@ -97,7 +98,7 @@ var	portAxis = jQuery('div.swipe_snap'),
 			if (count > 1) portArea.find(jPlate(count - 1)).find('a:last-child').attr('title', 'Previous');
 		} else {
 
-	//	set-up next drag
+	//	by drag
 
 			isSelect.find('a:last-child').off(startEvent).off(moveEvent).off(endEvent);
 			portArea.find('li.select a:last-child').on(startEvent, function(event) {
@@ -120,7 +121,7 @@ var	portAxis = jQuery('div.swipe_snap'),
 	var	displayHeight,
 		toc = jQuery('ul.toc'),
 		widthHTML = document.documentElement.clientWidth,
-		minGap = (isMouse) ? 72 : widthHTML - portAxis.width(),	// what to shave-off to fit in display
+		minGap = (isMouse) ? 72 : widthHTML - portAxis.width(),	// get gutter
 
 		navSize = (isMouse || (screen.width >= 768 && screen.height >= 768)) ? 44 : 33,	// prev/next width
 		listLI = portArea.find('li'),
@@ -137,12 +138,12 @@ var	portAxis = jQuery('div.swipe_snap'),
 		portHeight = document.documentElement.clientHeight - minGap,
 		fitWidth = (portWidth < imgWidth + barWidth + borderGap + 2 * padWidth),
 		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),
-		giveTotal = (portAxis.hasClass('basic_slates')) ? 'span' : 'span.page_total',	// default to center basic words & phrases
+		giveTotal = (portAxis.hasClass('basic_slates')) ? 'span' : 'span.page_total',	// selector to center
 		pageTotal = listLI.find('a:last-child').length,
 		px = function() {
 			return (arguments[0].toString() + 'px');
 		},
-		addImg = function() {	// insert image in link
+		addImg = function() {	// load image
 
 		var	objHref = arguments[0];
 			if (!objHref.children('img').length) {
@@ -193,20 +194,18 @@ var	portAxis = jQuery('div.swipe_snap'),
 			imgHeight = imgArea.height();
 		}
 		displayHeight = px(imgHeight + 2 * navHeight);
+		if (fitWidth || fitHeight) listLI.find('img').attr('style', (isVert ? 'height: ' + px(imgHeight) : 'width: ' + px(imgWidth)));
 		if (isVert) {
-			if (fitWidth || fitHeight) listLI.find('img').attr('style', 'height: ' + px(imgHeight));
 			listLI.find('a:last-child, span:first-child').css({'width': px(imgWidth), 'height': px(imgHeight)});
 			listLI.children('strong').html(isMouse ? document.createElement('sub') : '&circ;');
 			listLI.find('strong sub').append('&circ;');
 			portArea.css('max-height', displayHeight);
 		} else {
-			if (fitWidth || fitHeight) listLI.find('img').attr('style', 'width: ' + px(imgWidth));
 			listLI.find('span').children('a').css({'width': px(imgWidth), 'height': px(imgHeight)});
 			listLI.children('strong + span').css('min-width', px(navSize));
 			portArea.find('li:first-child > strong').css('margin-right', px(imgWidth/2));
 			portArea.find('li:last-child > strong').css('margin-left', px(imgWidth/2));
 		}
-		if (isMouse) portArea.css('padding', px(navWidth) + ' ' + px(navHeight));
 		listLI.children(giveTotal).children('a').css('line-height', px(imgHeight));
 		listLI.children('strong').css({'width': (isVert ? px(imgWidth) : px(navSize)), 'font-size': (navSize > 33 ? '32px' : '24px')});
 		listLI.find('a').on('focus', function() { this.blur(); });
@@ -215,8 +214,19 @@ var	portAxis = jQuery('div.swipe_snap'),
 		port.snapLength = (isVert) ? imgArea.height() : imgArea.width();
 		port.onscroll = updateDisplay;
 		if (barWidth) jQuery('.page_number').css('margin-right', px(barWidth));
+		if (isMouse) portArea.css('padding', px(navWidth) + ' ' + px(navHeight));
 		updateDisplay(isNaN(arguments[0]) ? 1 : arguments[0]);
 	};
+	if (isMouse) jQuery(document).on('keydown', function (event) {
+
+	//	go right/left keys
+
+	var	getKey = (event.key == 'ArrowLeft') ? -1 : (event.key == 'ArrowRight') ? 1 : false;
+		if (getKey && !isVert) {
+			jump(portArea.find('li.select')[0].count + getKey);
+			return false;
+		}
+	});
 	jQuery(self).on('resize', function() {
 
 	//	keep display order on resize

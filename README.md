@@ -8,4 +8,4 @@ If you can:
 
 you can establish a swipe display compliant to HTML4 &amp; 5 for screen, tablet &amp; mobile.
 
-The display is based on the presentation of the [Thrillbent online comics](http://thrillbent.com), which Mark Waid &amp; his team of creators credit [Yves Bigerel's digital comics challenge](http://www.deviantart.com/balak01/art/about-DIGITAL-COMICS-111966969) as inspiration. The [jQuery](http://code.jquery.com/jquery/) support required starts with version 2.
+The display is based on the presentation of the [Thrillbent online comics](http://thrillbent.com), which Mark Waid &amp; his team of creators credit [Yves Bigerel's turbomedia challenge](http://www.deviantart.com/balak01/art/about-DIGITAL-COMICS-111966969) as inspiration. Requires [jQuery](http://code.jquery.com/jquery/) starting at version 2.

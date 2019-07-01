@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<title>Your Swipe &amp; Snap Display</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!--	open your web document of your display with the swipe & snap stylesheet -->
+
+<link type="text/css" rel="stylesheet" href="swipe_snap.css">
+</head>
+<body>
+
+<!--	set your swipe to "vertical" or "horizontal" with the "swipe_snap" class -->
+
+<div class="horizontal swipe_snap basic_slates">
+
+<!--	"enable" or "disable" fade-ins -->
+
+	<div class="enable">
+
+	<!--	display previous-link arrow -->
+
+		<ul><li><strong>&lsaquo; </strong><span>&nbsp;</span>
+		</li><li><span><a href="#">Swipe &amp; Snap &rarr;</a></span>
+
+	<!--	set image-files to display as link destinations -->
+
+		</li><li>
+			<a href="bgF3F3F3.png"></a> <a href="bg050600.png"></a>
+
+	<!--	up to 3 fade-ins, from the first to last panel -->
+
+		</li><li class="swipe_out">
+			<a href="bg050600.png"></a>
+			<a href="bgCCCCCC.png"></a>
+			<a href="bgF3F3F3.png"></a>
+
+	<!--	add "swipe_out" to the slate to swipe-in the next one-->
+
+		</li><li class="swipe_out">
+			<a href="bg050600.png"></a>
+
+	<!--	blank panel sample are centered by sharing "basic_slates" with the "swipe_snap" class above -->
+
+		</li><li class="swipe_out"><span><a href="#">[ Your Text 1 ]</a></span>
+		</li><li class="swipe_out"><span><a href="#">[ Your Text 2 ]</a></span>
+		</li><li class="swipe_out"><span><a href="#">[ Your Text 3 ]</a></span>
+
+	<!--	show a page count on a text panel with the "page_total" class -->
+
+		</li><li><span class="page_total"><a href="#"></a></span>
+
+	<!--	next-link arrow -->
+
+		</li><li><strong>&rsaquo; </strong><span>&nbsp;</span>
+		</li></ul>
+	</div>
+</div>
+
+<!--	display page count with "page_number" -->
+
+<p class="page_number"></p>
+
+<!--	or, if you know how to style them, insert the tags to display the dynamic menu -->
+
+<ul class="toc"><li></li></ul>
+
+<!--	include your jQuery and swipe & snap scripts by the close of your document -->
+
+<script type="text/javascript" src="jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="swipe_snap.js"></script>
+</html>

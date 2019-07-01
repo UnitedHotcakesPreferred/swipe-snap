@@ -221,7 +221,7 @@ var	timeoutID, snapLength,
 
 	//	go right/left keys
 
-	var	getKey = (event.key.indexOf('Left') > -1) ? -1 : (event.key.indexOf('Right') > -1) ? 1 : false;
+	var	getKey = (event.key.indexOf('Right') > -1) ? 1 : (event.key.indexOf('Left') > -1) ? -1 : false;
 		if (getKey) {
 			jump(portArea.find('li.select')[0].count + getKey);
 			if (event.key.indexOf('Arrow') > -1) portArea.find('li.focus a:last-child').focus();

@@ -1,20 +1,7 @@
 /* TOC */
 
-ul.toc {
-	margin-right: auto;
-	margin-left: auto;
-	padding: 0;
-	overflow: hidden;
-	list-style-type: none;
-}
 ul.toc a {
-	padding: 7px 0;
-	display: block;
-	text-decoration: none;
 	outline: 0 none;
-}
-ul.toc a:hover {
-	text-decoration: underline;
 }
 ul.toc li.hilite a {
 	color: #c00;

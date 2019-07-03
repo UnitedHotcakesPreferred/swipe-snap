@@ -1,4 +1,4 @@
-# Standards-Compliant, Class-Managed Swipe Display
+# Swipe &amp; Snap Display. Just Add Images.
 
 If you can:
 

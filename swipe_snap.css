@@ -10,7 +10,7 @@ ul.toc li.hilite a {
 /* swipe & snap defaults */
 
 div.swipe_snap > div {
-	margin: auto;
+	margin: 0 auto;
 	overflow: hidden;
 }
 div.swipe_snap a {
@@ -88,15 +88,15 @@ div.horizontal li span {
 	vertical-align: top;
 }
 
-/* allow scrollbar */
+/* for mouse & scrollbar display */
 
 div.isMouse > div {
 	border: 3px solid #f6f6f6;
 }
-div.isMouse.swipe_snap.horizontal > div {
+div.isMouse.scrollbar.horizontal > div {
 	overflow-x: auto;
 }
-div.isMouse.swipe_snap.vertical > div {
+div.isMouse.scrollbar.vertical > div {
 	overflow-y: scroll;
 }
 

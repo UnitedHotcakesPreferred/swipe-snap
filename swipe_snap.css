@@ -26,25 +26,21 @@ div.swipe_snap li a {
 	position: relative;
 	float: left;
 }
+div.swipe_snap li a:last-child img {
+	float: left;
+	position: relative;
+	z-index: 9;
+}
 div.swipe_snap li img {
 	border-width: 0;
 	position: absolute;
 	opacity: 0;
 }
-div.swipe_snap li a:last-child {
-	z-index: 9;
-}
-div.swipe_snap li > a:last-child {
-	float: none;
-}
-div.swipe_snap li a:last-child img {
-	position: relative;
-}
 div.swipe_snap li > strong {
-	display: block;
 	position: absolute;
+	display: block;
 	color: #c00;
-	font-family: Verdana, sans-serif;
+	font-family: Georgia, serif;
 	text-align: center;
 }
 div.swipe_snap li span a {
@@ -56,15 +52,15 @@ div.swipe_snap li span a {
 }
 div.swipe_snap li.focus a:first-child,
 div.swipe_snap li.focus a:first-child img,
-div.swipe_snap li.select span a,
+div.swipe_snap li.select a,
 div.swipe_snap li.select img {
 	opacity: 1;
 }
 div.swipe_snap + p.page_number {
 	text-align: center;
 }
-div.swipe_snap li:first-child > strong + span,
-div.swipe_snap li:last-child > strong + span {
+div.swipe_snap li:last-child > strong + span,
+div.swipe_snap li:first-child > strong + span {
 	opacity: 0.7;
 	background: #fff;
 }
@@ -81,14 +77,12 @@ div.horizontal li:last-child > strong {
 	left: 50%;
 }
 div.horizontal li,
-div.horizontal li a,
-div.horizontal li img,
 div.horizontal li span {
 	display: inline-block;
 	vertical-align: top;
 }
 
-/* for mouse & scrollbar display */
+/* to display scrollbar & on desktop */
 
 div.isMouse > div {
 	border: 3px solid #f6f6f6;
@@ -109,12 +103,8 @@ div.vertical li a,
 div.vertical li span {
 	display: block;
 }
-div.vertical li a img {
-	display: block;
-	float: left;
-}
-div.vertical li:first-child {
-	line-height: 0;
+div.vertical li > a:last-child {
+	float: none;
 }
 div.vertical li:first-child > strong {
 	top: 0;
@@ -135,31 +125,31 @@ div.vertical li:last-child > strong {
 @media screen {
 	div.enable li.swipe_out a:last-child img,
 	div.enable li.swipe_out + li.select a:first-child + a img {
-		-moz-transition:	opacity 0.5s 0.6s;	-o-transition:	opacity 0.5s 0.6s;
+		-moz-transition:	opacity 0.5s 0.6s;
 		-webkit-transition:	opacity 0.5s 0.6s;	transition:	opacity 0.5s 0.6s;
 	}
 	div.enable li.swipe_out span a,
 	div.enable li.select a + a + a:last-child img,
 	div.enable li.select.swipe_out a + a + a:last-child img {
-		-moz-transition:	opacity 0.5s 0.67s;	-o-transition:	opacity 0.5s 0.67s;
-		-webkit-transition:	opacity 0.5s 0.67s;	transition:	opacity 0.5s 0.67s;
+		-moz-transition:	opacity 0.5s 0.7s;
+		-webkit-transition:	opacity 0.5s 0.7s;	transition:	opacity 0.5s 0.7s;
 	}
 	li.select.fade span a,
 	li.select.fade a:first-child + a img,
 	li.select.swipe_out.fade a:first-child + a img {
-		-moz-transition:	opacity 0.5s;		-o-transition:	opacity 0.5s;
+		-moz-transition:	opacity 0.5s;
 		-webkit-transition:	opacity 0.5s;		transition:	opacity 0.5s;
 	}
 	li.swipe_out a:last-child img,
 	li.swipe_out + li.select a:first-child + a img {
-		-moz-transition:	opacity 0s 0.6s;	-o-transition:	opacity 0s 0.6s;
+		-moz-transition:	opacity 0s 0.6s;
 		-webkit-transition:	opacity 0s 0.6s;	transition:	opacity 0s 0.6s;
 	}
 	li.swipe_out span a,
 	li.select a + a + a:last-child img,
 	li.select.swipe_out a + a + a:last-child img {
-		-moz-transition:	opacity 0s 0.67s;	-o-transition:	opacity 0s 0.67s;
-		-webkit-transition:	opacity 0s 0.67s;	transition:	opacity 0s 0.67s;
+		-moz-transition:	opacity 0s 0.7s;
+		-webkit-transition:	opacity 0s 0.7s;	transition:	opacity 0s 0.7s;
 	}
 	li.select + li.swipe_out a:last-child img,
 	li.swipe_out.select a:first-child + a img,
@@ -175,12 +165,12 @@ div.vertical li:last-child > strong {
 	div.enable li.swipe_out.focus span a:first-child,
 	div.enable li.swipe_out.select a:first-child img,
 	div.enable li.swipe_out.select span a:first-child {
-		-moz-transition:	opacity 0s;		-o-transition:	opacity 0s;
+		-moz-transition:	opacity 0s;
 		-webkit-transition:	opacity 0s;		transition:	opacity 0s;
 	}
 	li.swipe_out.select + li span a,
 	li.swipe_out + li.select + li a + a:last-child img {
-		-moz-transition:	opacity 0s 0.67s;	-o-transition:	opacity 0s 0.67s;
-		-webkit-transition:	opacity 0s 0.67s;	transition:	opacity 0s 0.67s;
+		-moz-transition:	opacity 0s 0.7s;
+		-webkit-transition:	opacity 0s 0.7s;	transition:	opacity 0s 0.7s;
 	}
 }

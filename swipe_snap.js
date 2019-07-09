@@ -1,6 +1,6 @@
 //	Swipe & Snap
 //	Copyright 2019 MIT License
-//	http://github.com/UnitedHotcakesPreferred/swipe-snap
+//	github.com/UnitedHotcakesPreferred/swipe-snap
 
 jQuery(document).ready(function() {	// set display landmarks
 
@@ -119,7 +119,7 @@ var	timeoutID, snapLength,
 	enable = function() {		// load & fit images
 	var	displayHeight,
 		toc = jQuery('ul.toc'),
-		widthHTML = document.documentElement.clientWidth,
+		widthHTML = jQuery(self).width(),
 		minGap = (isMouse) ? 72 : widthHTML - portAxis.width(),	// get gutter
 
 		navSize = (isMouse || (screen.width >= 768 && screen.height >= 768)) ? 44 : 33,	// prev/next width
@@ -134,7 +134,7 @@ var	timeoutID, snapLength,
 		imgWidth = imgArea.width(),
 		imgHeight = imgArea.height(),
 		portWidth = widthHTML - minGap,
-		portHeight = document.documentElement.clientHeight - minGap,
+		portHeight = jQuery(self).height() - minGap,
 		fitWidth = (portWidth < imgWidth + barWidth + borderGap + 2 * padWidth),
 		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),
 		giveTotal = (portAxis.hasClass('basic_slates')) ? 'span' : 'span.page_total',	// selector to center

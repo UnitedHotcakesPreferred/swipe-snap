@@ -119,8 +119,7 @@ var	timeoutID, snapLength,
 	enable = function() {		// load & fit images
 	var	displayHeight,
 		toc = jQuery('ul.toc'),
-		widthHTML = jQuery(self).width(),
-		minGap = (isMouse) ? 72 : widthHTML - portAxis.width(),	// get gutter
+		minGap = (isMouse) ? 72 : jQuery(self).width() - portAxis.width(),	// get gutter
 
 		navSize = (isMouse || (screen.width >= 768 && screen.height >= 768)) ? 44 : 33,	// prev/next width
 		listLI = portArea.find('li'),
@@ -133,7 +132,7 @@ var	timeoutID, snapLength,
 		barWidth = (isMouse && isVert) ? portArea.width() - portArea.children('ul').width() : 0,
 		imgWidth = imgArea.width(),
 		imgHeight = imgArea.height(),
-		portWidth = widthHTML - minGap,
+		portWidth = jQuery(self).width() - minGap,
 		portHeight = jQuery(self).height() - minGap,
 		fitWidth = (portWidth < imgWidth + barWidth + borderGap + 2 * padWidth),
 		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),

@@ -6,17 +6,15 @@ jQuery(document).ready(function() {	// set display landmarks
 
 var	portAxis = jQuery('div.swipe_snap');
 	if (!portAxis.find('li').hasClass('select')) {
+		portAxis.find('li > a')[0].append(document.createElement('img'));
+		portAxis.find('li > a img').attr({alt: '', src: portAxis.find('li > a img').parent().attr('href')});
 		portAxis.find('li:first-child + li').addClass('select');
-		portAxis.find('li > a')[0].className = 'asdf';
-		portAxis.find('a.asdf').append(document.createElement('img'));
-		portAxis.find('a.asdf img').attr({alt: '', src: portAxis.find('a.asdf').attr('href')});
 	}
 	if ('ontouchstart' in self) portAxis.addClass('isTouch');
 	else {
 	var	vDisplay = navigator.userAgent.toLowerCase();
 		if (vDisplay.indexOf('phone') < 0 && vDisplay.indexOf('mobile') < 0 && vDisplay.indexOf('tablet') < 0) portAxis.addClass('isMouse');
 	}
-	jQuery('.asdf').removeClass('asdf');
 });
 jQuery(self).on('load', function() {
 var	timeoutID, snapLength,
@@ -55,67 +53,6 @@ var	timeoutID, snapLength,
 			scrollPull(ixJump+1, newSnap, (portArea.find(jPlate(ixJump)).hasClass('swipe_out') ? 750 : 0));
 		}
 	},
-	updateDisplay = function() {	// scroll effects
-
-	var	startDrag, pageFrac, toSelect,
-		isTouch = portAxis.hasClass('isTouch'),
-		endEvent = (isTouch) ? 'touchend' : 'mouseup',
-		moveEvent = (isTouch) ? 'touchmove' : 'mousemove',
-		startEvent = (isTouch) ? 'touchstart' : 'mousedown',
-		pageTotal = portArea.find('li a:first-child').length,
-		scrollFrom = (isVert) ? portArea.scrollTop() : portArea.scrollLeft(),
-		count = (isNaN(arguments[0])) ? Math.floor(scrollFrom/snapLength) : arguments[0]-1,	// crawl or jump
-
-		newSnap = snapLength * count++,
-		isSelect = portArea.find('li.select'),
-		getTouch = function(event) {
-		var	eTouch = (event.originalEvent.touches) ? event.originalEvent.touches[0] : event;
-			return (isVert ? eTouch.pageY : eTouch.pageX);
-		};
-		toSelect = portArea.find(jPlate(count));
-		if (!toSelect.hasClass('select')) {
-			if (portArea.hasClass('enable') && portArea.find(jPlate(count - 1)).hasClass('select')) {
-				isSelect.removeClass('fade');
-				toSelect.addClass('fade');
-			}
-			isSelect.removeClass('select');
-			toSelect.addClass('select');
-			portArea.find('li.focus').removeClass('focus');
-		}
-		if (timeoutID) self.clearTimeout(timeoutID);
-		if (newSnap != scrollFrom) timeoutID = self.setTimeout(function() { scrollPull(count, newSnap, 99); }, 300);
-
-	//	progress display
-
-		pageFrac = 'Page ' + count.toString() + ' of ' + pageTotal.toString();
-		jQuery('.page_number').text(pageFrac);
-		jQuery('li.hilite').removeClass('hilite');
-		jQuery(jPlate(count, 1)).addClass('hilite');
-		if (isMouse) {
-			portArea.find(jPlate(count)).find('a:last-child').attr('title', pageFrac);
-			if (count < pageTotal) portArea.find(jPlate(count + 1)).find('a:last-child').attr('title', 'Next');
-			if (count > 1) portArea.find(jPlate(count - 1)).find('a:last-child').attr('title', 'Previous');
-		} else {
-
-	//	by drag
-
-			isSelect.find('a:last-child').off(startEvent).off(moveEvent).off(endEvent);
-			portArea.find('li.select a:last-child').on(startEvent, function(event) {
-				startDrag = getTouch(event);
-				event.preventDefault();
-			}).on(endEvent, function(event) {
-				startDrag = 0;
-				event.preventDefault();
-			}).on(moveEvent, function(event) {
-			var	endDrag = getTouch(event);
-				if (startDrag && startDrag != endDrag) {
-					jump(startDrag < endDrag ? count - 1 : count + 1);
-					startDrag = 0;
-				}
-				event.preventDefault();
-			});
-		}
-	},
 	enable = function() {		// load & fit images
 	var	displayHeight,
 		toc = jQuery('ul.toc'),
@@ -147,6 +84,69 @@ var	timeoutID, snapLength,
 			if (!objHref.children('img').length) {
 				objHref.append(document.createElement('img'));
 				objHref.children('img').attr({alt: '', src: objHref.attr('href')});
+			}
+		},
+		updateDisplay = function() {
+
+	//	scroll effects
+
+		var	startDrag, pageFrac, toSelect,
+			isTouch = portAxis.hasClass('isTouch'),
+			endEvent = (isTouch) ? 'touchend' : 'mouseup',
+			moveEvent = (isTouch) ? 'touchmove' : 'mousemove',
+			startEvent = (isTouch) ? 'touchstart' : 'mousedown',
+			pageTotal = portArea.find('li a:first-child').length,
+			scrollFrom = (isVert) ? portArea.scrollTop() : portArea.scrollLeft(),
+			count = (isNaN(arguments[0])) ? Math.floor(scrollFrom/snapLength) : arguments[0]-1,	// crawl or jump
+
+			newSnap = snapLength * count++,
+			isSelect = portArea.find('li.select'),
+			getTouch = function(event) {
+			var	eTouch = (event.originalEvent.touches) ? event.originalEvent.touches[0] : event;
+				return (isVert ? eTouch.pageY : eTouch.pageX);
+			};
+			toSelect = portArea.find(jPlate(count));
+			if (!toSelect.hasClass('select')) {
+				if (portArea.hasClass('enable') && portArea.find(jPlate(count - 1)).hasClass('select')) {
+					isSelect.removeClass('fade');
+					toSelect.addClass('fade');
+				}
+				isSelect.removeClass('select');
+				toSelect.addClass('select');
+				portArea.find('li.focus').removeClass('focus');
+			}
+			if (timeoutID) self.clearTimeout(timeoutID);
+			if (newSnap != scrollFrom) timeoutID = self.setTimeout(function() { scrollPull(count, newSnap, 99); }, 300);
+
+	//	progress display
+
+			pageFrac = 'Page ' + count.toString() + ' of ' + pageTotal.toString();
+			jQuery('.page_number').text(pageFrac);
+			jQuery('li.hilite').removeClass('hilite');
+			jQuery(jPlate(count, 1)).addClass('hilite');
+			if (isMouse) {
+				portArea.find(jPlate(count)).find('a:last-child').attr('title', pageFrac);
+				if (count < pageTotal) portArea.find(jPlate(count + 1)).find('a:last-child').attr('title', 'Next');
+				if (count > 1) portArea.find(jPlate(count - 1)).find('a:last-child').attr('title', 'Previous');
+			} else {
+	
+	//	by drag
+
+				isSelect.find('a:last-child').off(startEvent).off(moveEvent).off(endEvent);
+				portArea.find('li.select a:last-child').on(startEvent, function(event) {
+					startDrag = getTouch(event);
+					event.preventDefault();
+				}).on(endEvent, function(event) {
+					startDrag = 0;
+					event.preventDefault();
+				}).on(moveEvent, function(event) {
+				var	endDrag = getTouch(event);
+					if (startDrag && startDrag != endDrag) {
+						jump(startDrag < endDrag ? count - 1 : count + 1);
+						startDrag = 0;
+					}
+					event.preventDefault();
+				});
 			}
 		};
 		portArea.off();

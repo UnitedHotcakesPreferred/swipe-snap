@@ -6,7 +6,7 @@ jQuery(document).ready(function() {	// set display landmarks
 
 var	portAxis = jQuery('div.swipe_snap');
 	if (!portAxis.find('li').hasClass('select')) {
-		portAxis.find('li > a')[0].append(document.createElement('img'));
+		portAxis.find('li > a')[0].appendChild(document.createElement('img'));
 		portAxis.find('li > a img').attr({alt: '', src: portAxis.find('li > a img').parent().attr('href')});
 		portAxis.find('li:first-child + li').addClass('select');
 	}

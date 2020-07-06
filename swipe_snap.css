@@ -11,6 +11,7 @@ ul.toc li.hilite a {
 
 div.swipe_snap > div {
 	margin: 0 auto;
+	background: #fff;
 	overflow: hidden;
 }
 div.swipe_snap a {
@@ -23,8 +24,8 @@ div.swipe_snap ul {
 }
 div.swipe_snap li a {
 	outline: 0 none;
-	position: relative;
 	float: left;
+	position: relative;
 }
 div.swipe_snap li a:last-child img {
 	float: left;
@@ -44,11 +45,12 @@ div.swipe_snap li > strong {
 	text-align: center;
 }
 div.swipe_snap li span a {
-	font-size: xx-large;
+	font: xx-large serif;
 	text-align: center;
 	text-decoration: none;
 	background: #f3f3f3;
 	opacity: 0;
+	z-index: 9;
 }
 div.swipe_snap li.focus a:first-child,
 div.swipe_snap li.focus a:first-child img,
@@ -62,7 +64,6 @@ div.swipe_snap + p.page_number {
 div.swipe_snap li:last-child > strong + span,
 div.swipe_snap li:first-child > strong + span {
 	opacity: 0.7;
-	background: #fff;
 }
 
 /* horizontal swipe */

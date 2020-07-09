@@ -25,15 +25,11 @@ var	timeoutID, snapLength,
 
 	plateID = function() {		// give ID name
 
-		return ('plate' + percentxt(arguments[0]));
+		return ('plate' + (arguments[0] > 9 ? '' : '0') + arguments[0].toString());
 	},
 	jPlate = function() {		// style ID or class
 
 		return ((arguments.length > 1 ? 'li.' : 'li#') + plateID(arguments[0]));
-	},
-	percentxt = function() {	// give 2 figures
-	var	count = arguments[0];
-		return ((count > 9 ? '' : '0') + count.toString());
 	},
 	scrollPull = function() {	// scroll how
 	var	speed = arguments[2],
@@ -45,8 +41,8 @@ var	timeoutID, snapLength,
 			else portArea.scrollLeft(newSnap);
 	},
 	jump = function() {		// scroll where
-	var	count = arguments[0],
-		ixJump = (arguments[1] && portArea.find(jPlate(count)).hasClass('select') ? 1 : 0) + count - 1,
+
+	var	ixJump = (arguments[1] && portArea.find(jPlate(arguments[0])).hasClass('select') ? 1 : 0) + arguments[0] - 1,
 		newSnap = ixJump * snapLength;
 
 		if (newSnap != (jQuery('div.swipe_snap').hasClass('vertical') ? portArea.scrollTop() : portArea.scrollLeft())) {
@@ -175,7 +171,7 @@ var	timeoutID, snapLength,
 				tocLast = toc.children('li:last-child');
 				tocLast.addClass(plateID(ix));
 				tocLast.append(document.createElement('a'));
-				tocLast.children('a').text(percentxt(ix)).attr('href', ixHref).on('click', function() {
+				tocLast.children('a').text((ix > 9 ? '' : '0') + ix.toString()).attr('href', ixHref).on('click', function() {
 					if (this.parentElement.className.indexOf(portArea.find('li.select').attr('id')) < 0) {
 						jump(jQuery('li#' + this.parentElement.className)[0].count);
 					}

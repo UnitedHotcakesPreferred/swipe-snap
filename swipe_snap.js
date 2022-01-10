@@ -45,14 +45,14 @@ var	timeoutID, snapLength,
 	var	ixJump = (arguments[1] && portArea.find(jPlate(arguments[0])).hasClass('select') ? 1 : 0) + arguments[0] - 1,
 		newSnap = ixJump * snapLength;
 
-		if (newSnap != (jQuery('div.swipe_snap').hasClass('vertical') ? portArea.scrollTop() : portArea.scrollLeft())) {
+		if (newSnap != (isVert ? portArea.scrollTop() : portArea.scrollLeft())) {
 			scrollPull(ixJump+1, newSnap, (portArea.find(jPlate(ixJump)).hasClass('swipe_out') ? 750 : 0));
 		}
 	},
 	enable = function() {		// load & fit images
 	var	displayHeight,
 		toc = jQuery('ul.toc'),
-		minGap = (isMouse) ? 72 : jQuery(self).width() - portAxis.width(),	// get gutter
+		minGap = (isMouse) ? 72 : jQuery(document).width() - portAxis.width(),	// get gutter
 
 		navSize = (isMouse || (screen.width >= 768 && screen.height >= 768)) ? 44 : 33,	// prev/next width
 		listLI = portArea.find('li'),
@@ -65,7 +65,7 @@ var	timeoutID, snapLength,
 		barWidth = (isMouse && isVert) ? portArea.width() - portArea.children('ul').width() : 0,
 		imgWidth = imgArea.width(),
 		imgHeight = imgArea.height(),
-		portWidth = jQuery(self).width() - minGap,
+		portWidth = jQuery(document).width() - minGap,
 		portHeight = jQuery(self).height() - minGap,
 		fitWidth = (portWidth < imgWidth + barWidth + borderGap + 2 * padWidth),
 		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),
@@ -151,8 +151,7 @@ var	timeoutID, snapLength,
 		for (var ix=1;ix<=pageTotal;ix++) {
 			if (listLI[ix].getElementsByTagName('a').length) {
 			var	tocLast, displayLI,
-				countxt = ix.toString(),
-				ixHref = 'javascript://Page-' + countxt;
+				ixHref = 'javascript://Page-' + ix.toString();
 				toc.append(document.createElement('li'));
 				listLI[ix].setAttribute('id', plateID(ix));
 				listLI[ix].count = ix;
@@ -163,7 +162,7 @@ var	timeoutID, snapLength,
 					addImg(displayLI.children('a + a:last-child'));
 					if (displayLI.children('a + a + a').length) addImg(displayLI.children('a:first-child + a'));
 				}
-				displayLI.find('span.page_total a').text(countxt + ' / ' + pageTotal.toString());
+				displayLI.find('span.page_total a').text(ix.toString() + ' / ' + pageTotal.toString());
 				displayLI.find('a:last-child').attr('href', ixHref).on('click', function() {
 				var	count = (this.parentElement.count) ? this.parentElement.count : this.parentElement.parentElement.count;
 					jump(count, (isMouse && count < pageTotal));

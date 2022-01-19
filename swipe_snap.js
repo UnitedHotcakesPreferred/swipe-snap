@@ -46,7 +46,7 @@ var	timeoutID, snapLength,
 		newSnap = ixJump * snapLength;
 
 		if (newSnap != (isVert ? portArea.scrollTop() : portArea.scrollLeft())) {
-			scrollPull(ixJump+1, newSnap, (portArea.find(jPlate(ixJump)).hasClass('swipe_out') ? 750 : 0));
+			scrollPull(ixJump+1, newSnap, (portArea.find(jPlate(ixJump)).hasClass('select') && portArea.find(jPlate(ixJump)).hasClass('swipe_out') ? 750 : 0));
 		}
 	},
 	enable = function() {		// load & fit images

@@ -20,8 +20,8 @@ jQuery(self).on('load', function() {
 var	timeoutID, snapLength,
 	portAxis = jQuery('div.swipe_snap'),
 	portArea = portAxis.children('div'),
-	isVert = portAxis.hasClass('vertical'),
 	isMouse = portAxis.hasClass('isMouse'),
+	isVert = portAxis.hasClass('vertical'),
 
 	plateID = function() {		// give ID name
 
@@ -42,35 +42,34 @@ var	timeoutID, snapLength,
 	},
 	jump = function() {		// scroll where
 
-	var	ixJump = (arguments[1] && portArea.find(jPlate(arguments[0])).hasClass('select') ? 1 : 0) + arguments[0] - 1,
-		newSnap = ixJump * snapLength;
+	var	newFocus =	arguments[0] - (arguments[1] && portArea.find(jPlate(arguments[0])).hasClass('select') ? 0 : 1),
+		newSnap =	snapLength * newFocus++;
 
 		if (newSnap != (isVert ? portArea.scrollTop() : portArea.scrollLeft())) {
-			scrollPull(ixJump+1, newSnap, (portArea.find(jPlate(ixJump)).hasClass('select') && portArea.find(jPlate(ixJump)).hasClass('swipe_out') ? 750 : 0));
+			scrollPull(newFocus--, newSnap, (portArea.find(jPlate(newFocus)).hasClass('select') && portArea.find(jPlate(newFocus)).hasClass('swipe_out') ? 750 : 0));
 		}
 	},
 	enable = function() {		// load & fit images
 	var	displayHeight,
 		toc = jQuery('ul.toc'),
 		minGap = (isMouse) ? 72 : jQuery(document).width() - portAxis.width(),	// get gutter
-
-		navSize = (isMouse || (screen.width >= 768 && screen.height >= 768)) ? 44 : 33,	// prev/next width
 		listLI = portArea.find('li'),
 		imgArea = listLI.find('img'),
+		navSize = (screen.width >= 768 && screen.height >= 768) ? 44 : 33,	// prev/next width
 		navWidth = (isVert) ? 0 : navSize,
 		navHeight = navSize - navWidth,
 		borderGap = (isMouse) ? 6 : 0,
-		padWidth = (isMouse) ? navSize : navWidth,
 		padHeight = (isMouse) ? navSize : navHeight,
+		padWidth = (isMouse) ? navSize : navWidth,
 		barWidth = (isMouse && isVert) ? portArea.width() - portArea.children('ul').width() : 0,
 		imgWidth = imgArea.width(),
 		imgHeight = imgArea.height(),
 		portWidth = jQuery(document).width() - minGap,
 		portHeight = jQuery(self).height() - minGap,
-		fitWidth = (portWidth < imgWidth + barWidth + borderGap + 2 * padWidth),
-		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),
-		giveTotal = (portAxis.hasClass('basic_slates')) ? 'span' : 'span.page_total',	// class to center
 		pageTotal = listLI.find('a:last-child').length,
+		giveTotal = (portAxis.hasClass('basic_slates')) ? 'span' : 'span.page_total',	// class to center
+		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),
+		fitWidth = (portWidth < imgWidth + barWidth + borderGap + 2 * padWidth),
 		px = function() {
 			return (arguments[0].toString() + 'px');
 		},
@@ -114,7 +113,7 @@ var	timeoutID, snapLength,
 			if (timeoutID) self.clearTimeout(timeoutID);
 			if (newSnap != scrollFrom) timeoutID = self.setTimeout(function() { scrollPull(count, newSnap, 99); }, 300);
 
-	//	show progress
+	//	display progress
 
 			pageFrac = 'Page ' + count.toString() + ' of ' + pageTotal.toString();
 			jQuery('.page_number').text(pageFrac);
@@ -166,6 +165,7 @@ var	timeoutID, snapLength,
 				displayLI.find('a:last-child').attr('href', ixHref).on('click', function() {
 				var	count = (this.parentElement.count) ? this.parentElement.count : this.parentElement.parentElement.count;
 					jump(count, (isMouse && count < pageTotal));
+					return false;
 				});
 				tocLast = toc.children('li:last-child');
 				tocLast.addClass(plateID(ix));
@@ -190,33 +190,33 @@ var	timeoutID, snapLength,
 		}
 		displayHeight = px(imgHeight + 2 * navHeight);
 		snapLength = (isVert) ? imgHeight : imgWidth;
+		listLI.children(giveTotal).children('a').css('line-height', px(imgHeight));
+		listLI.children('strong').css({'width': px(isVert ? imgWidth : navSize), 'font-size': px(navSize > 33 ? 32 : 24)});
+		listLI.find(isVert ? 'a:last-child, span:first-child' : 'span a').css({'width': px(imgWidth), 'height': px(imgHeight)});
+		listLI.find('a').on('focus', function() { this.blur(); });
 		if (fitWidth || fitHeight) listLI.find('img').attr('style', (isVert ? 'height: ' + px(imgHeight) : 'width: ' + px(imgWidth)));
 		if (isVert) {
-			listLI.find('a:last-child, span:first-child').css({'width': px(imgWidth), 'height': px(imgHeight)});
 			listLI.children('strong').html(isMouse ? document.createElement('sub') : '&circ;');
 			listLI.find('strong sub').append('&circ;');
 			portArea.css('max-height', displayHeight);
 		} else {
-			listLI.find('span a').css({'width': px(imgWidth), 'height': px(imgHeight)});
 			listLI.children('strong + span').css({'min-width': px(navSize), 'background': portArea.css('background-color')});
 			portArea.find('li:first-child > strong').css('margin-right', px(imgWidth/2));
 			portArea.find('li:last-child > strong').css('margin-left', px(imgWidth/2));
 		}
-		listLI.children(giveTotal).children('a').css('line-height', px(imgHeight));
-		listLI.children('strong').css({'width': (isVert ? px(imgWidth) : px(navSize)), 'font-size': (navSize > 33 ? '32px' : '24px')});
-		listLI.find('a').on('focus', function() { this.blur(); });
 		portArea.find('li:first-child, li:last-child').css('line-height', (navHeight ? px(navHeight) : displayHeight));
+		portArea.find('img').css(isVert ? 'max-width' : 'max-height', px(isVert ? imgWidth : imgHeight));
 		portArea.css('max-width', px(imgWidth + barWidth + 2 * navWidth));
-		if (isMouse) portArea.css('padding', px(navWidth) + ' ' + px(navHeight));
-		if (barWidth) jQuery('.page_number').css('margin-right', px(barWidth));
+		portArea.css('padding', isMouse ? px(navWidth) + ' ' + px(navHeight) : '0');
 		portArea.on('scroll', updateDisplay);
 		updateDisplay(isNaN(arguments[0]) ? 1 : arguments[0]);
+		jQuery('.page_number').css('margin-right', barWidth ? px(barWidth) : '0');
 	};
 	if (isMouse) jQuery(document).on('keydown', function (event) {
 
 	//	go right/left keys
 
-	var	getKey = (event.key.indexOf('Right') > -1) ? 1 : (event.key.indexOf('Left') > -1) ? -1 : false;
+	var	getKey = (event.key.indexOf('Right') >= 0) ? 1 : (event.key.indexOf('Left') >= 0) ? -1 : false;
 		if (getKey) {
 			event.preventDefault();
 			jump(portArea.find('li.select')[0].count + getKey);
@@ -226,7 +226,7 @@ var	timeoutID, snapLength,
 
 	//	keep place on resize
 
-		portArea.find('img').attr('style', '');
+		portArea.find('img, strong').attr('style', '');
 		enable(portArea.find('li.select')[0].count);
 	});
 	enable();

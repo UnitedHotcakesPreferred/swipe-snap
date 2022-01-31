@@ -192,9 +192,12 @@ var	timeoutID, snapLength,
 		snapLength = (isVert) ? imgHeight : imgWidth;
 		listLI.children(giveTotal).children('a').css('line-height', px(imgHeight));
 		listLI.children('strong').css({'width': px(isVert ? imgWidth : navSize), 'font-size': px(navSize > 33 ? 32 : 24)});
-		listLI.find(isVert ? 'a:last-child, span:first-child' : 'span a').css({'width': px(imgWidth), 'height': px(imgHeight)});
+		listLI.find(isVert ? 'a:last-child' : 'span a').css({'width': px(imgWidth), 'height': px(imgHeight)});
 		listLI.find('a').on('focus', function() { this.blur(); });
-		if (fitWidth || fitHeight) listLI.find('img').attr('style', (isVert ? 'height: ' + px(imgHeight) : 'width: ' + px(imgWidth)));
+		if (fitWidth || fitHeight) listLI.find('img').attr(
+			'style',
+			(isVert ? 'max-' : '') + 'width: ' + px(imgWidth) + '; ' + (isVert ? '' : 'max-') + 'height: ' + px(imgHeight)
+		);
 		if (isVert) {
 			listLI.children('strong').html(isMouse ? document.createElement('sub') : '&circ;');
 			listLI.find('strong sub').append('&circ;');
@@ -205,7 +208,6 @@ var	timeoutID, snapLength,
 			portArea.find('li:last-child > strong').css('margin-left', px(imgWidth/2));
 		}
 		portArea.find('li:first-child, li:last-child').css('line-height', (navHeight ? px(navHeight) : displayHeight));
-		portArea.find('img').css(isVert ? 'max-width' : 'max-height', px(isVert ? imgWidth : imgHeight));
 		portArea.css('max-width', px(imgWidth + barWidth + 2 * navWidth));
 		portArea.css('padding', isMouse ? px(navWidth) + ' ' + px(navHeight) : '0');
 		portArea.on('scroll', updateDisplay);

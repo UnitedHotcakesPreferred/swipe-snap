@@ -6,7 +6,6 @@ ul.toc a {
 ul.toc li.hilite a {
 	color: #c00;
 }
-
 /* swipe & snap defaults */
 
 div.swipe_snap > div {
@@ -14,28 +13,26 @@ div.swipe_snap > div {
 	background: #fff;
 	overflow: hidden;
 }
-div.swipe_snap a {
-	color: inherit;
-}
 div.swipe_snap ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 }
-div.swipe_snap li a {
-	outline: 0 none;
-	float: left;
-	position: relative;
-}
-div.swipe_snap li a:last-child img {
-	float: left;
-	position: relative;
-	z-index: 9;
-}
 div.swipe_snap li img {
 	border-width: 0;
 	position: absolute;
 	opacity: 0;
+}
+div.swipe_snap li a {
+	display: block;
+	position: relative;
+	color: inherit;
+	outline: 0 none;
+}
+div.swipe_snap li a:last-child img {
+	display: block;
+	position: relative;
+	z-index: 9;
 }
 div.swipe_snap li > strong {
 	position: absolute;
@@ -44,8 +41,11 @@ div.swipe_snap li > strong {
 	font-family: Georgia, serif;
 	text-align: center;
 }
+div.swipe_snap li span {
+	display: block;
+}
 div.swipe_snap li span a {
-	font: xx-large serif;
+	font: 32px serif;
 	text-align: center;
 	text-decoration: none;
 	background: #f3f3f3;
@@ -58,18 +58,18 @@ div.swipe_snap li.select a,
 div.swipe_snap li.select img {
 	opacity: 1;
 }
-div.swipe_snap + p.page_number {
-	text-align: center;
-}
 div.swipe_snap li:last-child > strong + span,
 div.swipe_snap li:first-child > strong + span {
 	opacity: 0.7;
 }
-
+div.swipe_snap ~ p.page_number {
+	text-align: center;
+}
 /* horizontal swipe */
 
-div.horizontal ul {
-	white-space: nowrap;
+div.horizontal li {
+	display: table-cell;
+	vertical-align: top;
 }
 div.horizontal li:first-child > strong {
 	right: 50%;
@@ -77,12 +77,6 @@ div.horizontal li:first-child > strong {
 div.horizontal li:last-child > strong {
 	left: 50%;
 }
-div.horizontal li,
-div.horizontal li span {
-	display: inline-block;
-	vertical-align: top;
-}
-
 /* to display scrollbar & on desktop */
 
 div.isMouse > div {
@@ -94,18 +88,13 @@ div.isMouse.scrollbar.horizontal > div {
 div.isMouse.scrollbar.vertical > div {
 	overflow-y: scroll;
 }
-
 /* vertical swipe */
 
 div.vertical {
 	position: relative;
 }
-div.vertical li a,
-div.vertical li span {
-	display: block;
-}
-div.vertical li > a:last-child {
-	float: none;
+div.vertical li span:first-child {
+	overflow: hidden;
 }
 div.vertical li:first-child > strong {
 	top: 0;
@@ -116,12 +105,12 @@ div.vertical li:last-child > strong {
 div.vertical li > strong sub {
 	font-size: 1em;
 }
-
 /* prefixed css3 */
 
 div.vertical li:last-child > strong {
-	-o-transform:		rotate(180deg);	-ms-transform:	rotate(180deg);	-moz-transform:	rotate(180deg);
-	-webkit-transform:	rotate(180deg);	transform:	rotate(180deg);
+	-o-transform:	rotate(180deg);	-ms-transform:		rotate(180deg);
+	-moz-transform:	rotate(180deg);	-webkit-transform:	rotate(180deg);
+	transform:	rotate(180deg);
 }
 @media screen {
 	div.enable li.swipe_out a:last-child img,

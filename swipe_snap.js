@@ -2,7 +2,7 @@
 //	Copyright 2019 MIT License
 //	github.com/UnitedHotcakesPreferred/swipe-snap
 
-jQuery(document).ready(function() {	// set landmark classes
+jQuery(document).ready(function() {	// plant landmarks
 
 var	portAxis = jQuery('div.swipe_snap');
 	if (!portAxis.find('li').hasClass('select')) {
@@ -17,44 +17,43 @@ var	portAxis = jQuery('div.swipe_snap');
 	}
 });
 jQuery(self).on('load', function() {
-var	timeoutID, snapLength,
+var	setDelay, snapLength,
 	portAxis = jQuery('div.swipe_snap'),
 	portArea = portAxis.children('div'),
 	isMouse = portAxis.hasClass('isMouse'),
 	isVert = portAxis.hasClass('vertical'),
 
-	plateID = function() {		// give ID name
+	idPlate = function() {		// name object
 
 		return ('plate' + (arguments[0] > 9 ? '' : '0') + arguments[0].toString());
 	},
-	jPlate = function() {		// style ID or class
+	liPlate = function() {		// name selector
 
-		return ((arguments.length > 1 ? 'li.' : 'li#') + plateID(arguments[0]));
+		return ((arguments.length > 1 ? 'li.' : 'li#') + idPlate(arguments[0]));
 	},
-	scrollPull = function() {	// scroll how
+	endPull = function() {	// finish
 	var	speed = arguments[2],
 		newSnap = arguments[1];
-		portArea.find(jPlate(arguments[0])).addClass('focus');
+		portArea.find(liPlate(arguments[0])).addClass('focus');
 		if (isVert) if (speed) portArea.animate({scrollTop: newSnap}, speed);
 			else portArea.scrollTop(newSnap);
 		else if (speed) portArea.animate({scrollLeft: newSnap}, speed);
 			else portArea.scrollLeft(newSnap);
 	},
-	jump = function() {		// scroll where
+	jump = function() {		// give destination
 
-	var	newFocus =	arguments[0] - (arguments[1] && portArea.find(jPlate(arguments[0])).hasClass('select') ? 0 : 1),
+	var	newFocus =	arguments[0] - (arguments[1] && portArea.find(liPlate(arguments[0])).hasClass('select') ? 0 : 1),
 		newSnap =	snapLength * newFocus++;
 
 		if (newSnap != (isVert ? portArea.scrollTop() : portArea.scrollLeft())) {
-			scrollPull(newFocus--, newSnap, (portArea.find(jPlate(newFocus)).hasClass('select') && portArea.find(jPlate(newFocus)).hasClass('swipe_out') ? 750 : 0));
+			endPull(newFocus--, newSnap, (portArea.find(liPlate(newFocus)).hasClass('select') && portArea.find(liPlate(newFocus)).hasClass('swipe_out') ? 750 : 0));
 		}
 	},
 	enable = function() {		// load & fit images
-	var	displayHeight,
-		toc = jQuery('ul.toc'),
+	var	toc = jQuery('ul.toc'),
 		minGap = (isMouse) ? 72 : jQuery(document).width() - portAxis.width(),	// get gutter
-		listLI = portArea.find('li'),
-		imgArea = listLI.find('img'),
+		liShow = portArea.find('li'),
+		imgArea = liShow.find('img'),
 		navSize = (screen.width >= 768 && screen.height >= 768) ? 44 : 33,	// prev/next width
 		navWidth = (isVert) ? 0 : navSize,
 		navHeight = navSize - navWidth,
@@ -66,24 +65,23 @@ var	timeoutID, snapLength,
 		imgHeight = imgArea.height(),
 		portWidth = jQuery(document).width() - minGap,
 		portHeight = jQuery(self).height() - minGap,
-		pageTotal = listLI.find('a:last-child').length,
+		pageTotal = liShow.find('a:last-child').length,
 		giveTotal = (portAxis.hasClass('basic_slates')) ? 'span' : 'span.page_total',	// class to center
 		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),
 		fitWidth = (portWidth < imgWidth + barWidth + borderGap + 2 * padWidth),
 		px = function() {
-			return (arguments[0].toString() + 'px');
+			return (parseInt(arguments[0]).toString() + 'px');
 		},
 		addImg = function() {
-
-		var	objHref = arguments[0];
-			if (!objHref.children('img').length) {
-				objHref.append(document.createElement('img'));
-				objHref.children('img').attr({alt: '', src: objHref.attr('href')});
+		var	imgHref = arguments[0];
+			if (!imgHref.children('img').length) {
+				imgHref.append(document.createElement('img'));
+				imgHref.children('img').attr({alt: '', src: imgHref.attr('href')});
 			}
 		},
-		updateDisplay = function() {
+		newDisplay = function() {
 
-	//	scroll effects
+	//	on scroll
 
 		var	endTug, startTug, startFirst, pageFrac, toSelect,
 			isTouch = portAxis.hasClass('isTouch'),
@@ -92,7 +90,7 @@ var	timeoutID, snapLength,
 			startEvent = (isTouch) ? 'touchstart' : 'mousedown',
 			pageTotal = portArea.find('li a:first-child').length,
 			scrollFrom = (isVert) ? portArea.scrollTop() : portArea.scrollLeft(),
-			count = (isNaN(arguments[0])) ? Math.floor(scrollFrom/snapLength) : arguments[0] - 1,	// crawl or jump
+			count = Math.round(isNaN(arguments[0]) ? scrollFrom/snapLength : arguments[0] - 1),	// dock or jump
 
 			newSnap = snapLength * count++,
 			isSelect = portArea.find('li.select'),
@@ -100,9 +98,9 @@ var	timeoutID, snapLength,
 			var	eTouch = (event.originalEvent.touches) ? event.originalEvent.touches[0] : event;
 				return (isVert ? eTouch.pageY : eTouch.pageX);
 			};
-			toSelect = portArea.find(jPlate(count));
+			toSelect = portArea.find(liPlate(count));
 			if (!toSelect.hasClass('select')) {
-				if (portArea.hasClass('enable') && portArea.find(jPlate(count - 1)).hasClass('select')) {
+				if (portArea.hasClass('enable') && portArea.find(liPlate(count - 1)).hasClass('select')) {
 					isSelect.removeClass('fade');
 					toSelect.addClass('fade');
 				}
@@ -110,19 +108,19 @@ var	timeoutID, snapLength,
 				toSelect.addClass('select');
 				portArea.find('li.focus').removeClass('focus');
 			}
-			if (timeoutID) self.clearTimeout(timeoutID);
-			if (newSnap != scrollFrom) timeoutID = self.setTimeout(function() { scrollPull(count, newSnap, 99); }, 300);
+			if (setDelay) self.clearTimeout(setDelay);
+			if (newSnap != scrollFrom) setDelay = self.setTimeout(function() { endPull(count, newSnap, 99); }, 300);
 
 	//	display progress
 
 			pageFrac = 'Page ' + count.toString() + ' of ' + pageTotal.toString();
 			jQuery('.page_number').text(pageFrac);
 			jQuery('li.hilite').removeClass('hilite');
-			jQuery(jPlate(count, 1)).addClass('hilite');
+			jQuery(liPlate(count, 1)).addClass('hilite');
 			if (isMouse) {
-				portArea.find(jPlate(count)).find('a:last-child').attr('title', pageFrac);
-				if (count < pageTotal) portArea.find(jPlate(count + 1)).find('a:last-child').attr('title', 'Next');
-				if (count > 1) portArea.find(jPlate(count - 1)).find('a:last-child').attr('title', 'Previous');
+				portArea.find(liPlate(count)).find('a:last-child').attr('title', pageFrac);
+				if (count < pageTotal) portArea.find(liPlate(count + 1)).find('a:last-child').attr('title', 'Next');
+				if (count > 1) portArea.find(liPlate(count - 1)).find('a:last-child').attr('title', 'Previous');
 			} else {
 
 	//	by swipe
@@ -148,31 +146,31 @@ var	timeoutID, snapLength,
 		portArea.off();
 		toc.html('');
 		for (var ix=1;ix<=pageTotal;ix++) {
-			if (listLI[ix].getElementsByTagName('a').length) {
-			var	tocLast, displayLI,
-				ixHref = 'javascript://Page-' + ix.toString();
+			if (liShow[ix].getElementsByTagName('a').length) {
+			var	isShow, tocLast,
+				isPage = 'javascript://Page-' + ix.toString();
 				toc.append(document.createElement('li'));
-				listLI[ix].setAttribute('id', plateID(ix));
-				listLI[ix].count = ix;
-				displayLI = portArea.find(jPlate(ix));
+				liShow[ix].setAttribute('id', idPlate(ix));
+				liShow[ix].count = ix;
+				isShow = portArea.find(liPlate(ix));
 
-				addImg(displayLI.children('a:first-child'));
-				if (displayLI.children('a + a').length) {
-					addImg(displayLI.children('a + a:last-child'));
-					if (displayLI.children('a + a + a').length) addImg(displayLI.children('a:first-child + a'));
+				addImg(isShow.children('a:first-child'));
+				if (isShow.children('a + a').length) {
+					addImg(isShow.children('a + a:last-child'));
+					if (isShow.children('a + a + a').length) addImg(isShow.children('a:first-child + a'));
 				}
-				displayLI.find('span.page_total a').text(ix.toString() + ' / ' + pageTotal.toString());
-				displayLI.find('a:last-child').attr('href', ixHref).on('click', function() {
+				isShow.find('span.page_total a').text(ix.toString() + ' / ' + pageTotal.toString());
+				isShow.find('a:last-child').attr('href', isPage).on('click', function() {
 				var	count = (this.parentElement.count) ? this.parentElement.count : this.parentElement.parentElement.count;
 					jump(count, (isMouse && count < pageTotal));
 					return false;
 				});
 				tocLast = toc.children('li:last-child');
-				tocLast.addClass(plateID(ix));
+				tocLast.addClass(idPlate(ix));
 				tocLast.append(document.createElement('a'));
-				tocLast.children('a').text((ix > 9 ? '' : '0') + ix.toString()).attr('href', ixHref).on('click', function() {
+				tocLast.children('a').text((ix > 9 ? '' : '0') + ix.toString()).attr('href', isPage).on('click', function() {
 					if (this.parentElement.className.indexOf(portArea.find('li.select').attr('id')) < 0) {
-						jump(jQuery('li#' + this.parentElement.className)[0].count);
+						jump(portArea.find('li#' + this.parentElement.className)[0].count);
 					}
 				});
 			}
@@ -188,33 +186,33 @@ var	timeoutID, snapLength,
 			imgArea.attr('style', 'max-width: ' + px(imgWidth));
 			imgHeight = imgArea.height();
 		}
-		displayHeight = px(imgHeight + 2 * navHeight);
-		snapLength = (isVert) ? imgHeight : imgWidth;
-		listLI.children(giveTotal).children('a').css('line-height', px(imgHeight));
-		listLI.children('strong').css({'width': px(isVert ? imgWidth : navSize), 'font-size': px(navSize > 33 ? 32 : 24)});
-		listLI.find(isVert ? 'a:last-child' : 'span a').css({'width': px(imgWidth), 'height': px(imgHeight)});
-		listLI.find('a').on('focus', function() { this.blur(); });
-		if (fitWidth || fitHeight) listLI.find('img').attr(
-			'style',
-			(isVert ? 'max-' : '') + 'width: ' + px(imgWidth) + '; ' + (isVert ? '' : 'max-') + 'height: ' + px(imgHeight)
-		);
+		if (fitWidth || fitHeight) liShow.find('img').attr({
+			style: (isVert ? 'max-width: ' + px(imgWidth) : 'max-height: ' + px(imgHeight)),
+			width: (isVert ? 'auto' : parseInt(imgWidth)),
+			height: (isVert ? parseInt(imgHeight) : 'auto')
+		});
+		liShow.find(isVert ? 'a:last-child' : 'span a').css({'width': px(imgWidth), 'height': px(imgHeight)});
+		liShow.children('strong').css({'width': px(isVert ? imgWidth : navSize), 'font-size': px(navSize > 33 ? 32 : 24)});
+		liShow.children(giveTotal).children('a').css('line-height', px(imgHeight));
+		liShow.find('a').on('focus', function() { this.blur(); });
 		if (isVert) {
-			listLI.children('strong').html(isMouse ? document.createElement('sub') : '&circ;');
-			listLI.find('strong sub').append('&circ;');
-			portArea.css('max-height', displayHeight);
+			liShow.children('strong').html(isMouse ? document.createElement('sub') : '&circ;');
+			liShow.find('strong sub').append('&circ;');
+			portArea.css('max-height', px(imgHeight + 2 * navHeight));
 		} else {
-			listLI.children('strong + span').css({'min-width': px(navSize), 'background': portArea.css('background-color')});
+			liShow.children('strong + span').css({'min-width': px(navSize), 'background': portArea.css('background-color')});
 			portArea.find('li:first-child > strong').css('margin-right', px(imgWidth/2));
 			portArea.find('li:last-child > strong').css('margin-left', px(imgWidth/2));
 		}
-		portArea.find('li:first-child, li:last-child').css('line-height', (navHeight ? px(navHeight) : displayHeight));
+		portArea.find('li:first-child, li:last-child').css('line-height', navHeight ? px(navHeight) : px(imgHeight + 2 * navHeight));
 		portArea.css('max-width', px(imgWidth + barWidth + 2 * navWidth));
 		portArea.css('padding', isMouse ? px(navWidth) + ' ' + px(navHeight) : '0');
-		portArea.on('scroll', updateDisplay);
-		updateDisplay(isNaN(arguments[0]) ? 1 : arguments[0]);
+		portArea.on('scroll', newDisplay);
+		snapLength = parseInt(isVert ? imgHeight : imgWidth);
+		newDisplay(isNaN(arguments[0]) ? 1 : arguments[0]);
 		jQuery('.page_number').css('margin-right', barWidth ? px(barWidth) : '0');
 	};
-	if (isMouse) jQuery(document).on('keydown', function (event) {
+	if ('onkeydown' in document) jQuery(document).on('keydown', function (event) {
 
 	//	go right/left keys
 
@@ -226,8 +224,9 @@ var	timeoutID, snapLength,
 	});
 	jQuery(self).on('resize', function() {
 
-	//	keep place on resize
+	//	hold place
 
+		portArea.find('img').attr(isVert ? 'height' : 'width', 'auto');
 		portArea.find('img, strong').attr('style', '');
 		enable(portArea.find('li.select')[0].count);
 	});

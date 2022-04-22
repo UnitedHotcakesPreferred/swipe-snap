@@ -8,4 +8,4 @@ If you can:
 
 you can give readers a swipe display compliant to HTML4 &amp; 5. Support for the display begins in browsers that support [jQuery](http://code.jquery.com/jquery/) version 2.
 
-This solution is based on the [Thrillbent comics](http://thrillbent.com) display, which Mark Waid &amp; his team of creators credit [Yves Bigerel's turbomedia comics challenge](http://www.deviantart.com/balak01/art/about-DIGITAL-COMICS-111966969) as inspiration. Take a look at the sample html to see how easy it is to give what you have to say a swipe display.
+This solution is based on the [Thrillbent comics](http://thrillbent.com) display, which Mark Waid &amp; his team of creators credit [Yves Bigerel's turbomedia comics challenge](http://www.deviantart.com/balak01/art/about-DIGITAL-COMICS-111966969) has inspiration. Take a look at the sample html to see how easy it is to give what you have to say a swipe display.

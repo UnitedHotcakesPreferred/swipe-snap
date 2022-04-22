@@ -113,34 +113,32 @@ div.vertical li:last-child > strong {
 	transform:	rotate(180deg);
 }
 @media screen {
-	div.enable li.swipe_out a:last-child img,
-	div.enable li.swipe_out + li.select a:first-child + a img {
-		-moz-transition:	opacity 0.2s 0.6s;
-		-webkit-transition:	opacity 0.2s 0.6s;	transition:	opacity 0.2s 0.6s;
-	}
+	div.enable li.swipe_out a img,
 	div.enable li.swipe_out span a,
+	div.enable li.swipe_out + li.fade.select a:first-child + a img {
+		-moz-transition:	opacity 0.2s 0.7s;
+		-webkit-transition:	opacity 0.2s 0.7s;	transition:	opacity 0.2s 0.7s;
+	}
 	div.enable li.select.fade a + a + a:last-child img,
-	div.enable li.select.swipe_out a + a + a:last-child img {
+	div.enable li.swipe_out + li.fade.focus a:first-child + a img {
 		-moz-transition:	opacity 0.3s 0.9s;
 		-webkit-transition:	opacity 0.3s 0.9s;	transition:	opacity 0.3s 0.9s;
 	}
-	li.select.fade span a,
-	li.select.fade a:first-child + a img,
-	li.select.swipe_out.fade a:first-child + a img {
+	div.enable li.select.fade span a,
+	div.enable li.select.fade a:first-child + a img,
+	div.enable li.select.fade.swipe_out a:first-child + a img,
+	div.enable li.swipe_out + li.select.fade span a {
 		-moz-transition:	opacity 0.5s;
 		-webkit-transition:	opacity 0.5s;		transition:	opacity 0.5s;
 	}
-	li.select.swipe_out a + a + a:last-child img {
-		-moz-transition:	opacity 0s 0.9s;
-		-webkit-transition:	opacity 0s 0.9s;	transition:	opacity 0s 0.9s;
-	}
 	li.select a + a + a:last-child img,
+	li.swipe_out.select a + a + a:last-child img,
 	li.swipe_out + li.select a:first-child + a img,
-	li.swipe_out a:last-child img, li.swipe_out span a {
-		-moz-transition:	opacity 0s 0.6s;
-		-webkit-transition:	opacity 0s 0.6s;	transition:	opacity 0s 0.6s;
+	li.swipe_out a img, li.swipe_out span a {
+		-moz-transition:	opacity 0s 0.7s;
+		-webkit-transition:	opacity 0s 0.7s;	transition:	opacity 0s 0.7s;
 	}
-	li.select + li.swipe_out a:last-child img,
+	li.focus + li.swipe_out a:last-child img,
 	li.swipe_out.select a:first-child + a img,
 	li.swipe_out.select a:last-child img,
 	li.swipe_out + li.select span a,
@@ -154,9 +152,12 @@ div.vertical li:last-child > strong {
 	li.swipe_out.select + li span a,
 	li.swipe_out.select + li.focus span a,
 	li.swipe_out + li.select + li a + a:last-child img,
+	li.select + li.swipe_out a img,
+	div.enable li.swipe_out.select a:first-child img,
 	div.enable li.swipe_out.focus a:first-child img,
-	div.enable li.swipe_out.focus span a:first-child,
-	div.enable li.swipe_out.select a:first-child img {
+	div.enable li.swipe_out.select + li span a,
+	div.enable li.swipe_out.select span a,
+	div.enable li.swipe_out.focus span a {
 		-moz-transition:	opacity 0s;
 		-webkit-transition:	opacity 0s;	transition:	opacity 0s;
 	}

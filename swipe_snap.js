@@ -31,7 +31,7 @@ var	setDelay, snapLength,
 
 		return ((arguments.length > 1 ? 'li.' : 'li#') + idPlate(arguments[0]));
 	},
-	endPull = function() {	// finish
+	endPull = function() {		// finish
 	var	speed = arguments[2],
 		newSnap = arguments[1];
 		portArea.find(liPlate(arguments[0])).addClass('focus');
@@ -51,10 +51,10 @@ var	setDelay, snapLength,
 	},
 	enable = function() {		// load & fit images
 	var	toc = jQuery('ul.toc'),
-		minGap = (isMouse) ? 72 : jQuery(document).width() - portAxis.width(),	// get gutter
+		minGap = (isMouse) ? 48 : jQuery(document).width() - portAxis.width(),	// get gutter
 		liShow = portArea.find('li'),
 		imgArea = liShow.find('img'),
-		navSize = (screen.width >= 768 && screen.height >= 768) ? 44 : 33,	// prev/next width
+		navSize = (screen.width >= 768 && screen.height >= 768) ? 42 : 24,	// prev/next width
 		navWidth = (isVert) ? 0 : navSize,
 		navHeight = navSize - navWidth,
 		borderGap = (isMouse) ? 6 : 0,
@@ -64,7 +64,7 @@ var	setDelay, snapLength,
 		imgWidth = imgArea.width(),
 		imgHeight = imgArea.height(),
 		portWidth = jQuery(document).width() - minGap,
-		portHeight = jQuery(self).height() - minGap,
+		portHeight = self.innerHeight - minGap,
 		pageTotal = liShow.find('a:last-child').length,
 		giveTotal = (portAxis.hasClass('basic_slates')) ? 'span' : 'span.page_total',	// class to center
 		fitHeight = (portHeight < imgHeight + borderGap + 2 * navHeight),
